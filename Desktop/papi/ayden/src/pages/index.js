@@ -277,7 +277,7 @@ const exampleData = [
             id: 19,
             firstname: "Azzaya",
             lastname: "Doe",
-            school: "XYZ",
+            school: "NIT",
             job: "Developer",
             alive: "true",
             items: [
@@ -292,7 +292,7 @@ const exampleData = [
             id: 20,
             firstname: "Erkhes",
             lastname: "Doe",
-            school: "XYZ",
+            school: "NIT",
             job: "Developer",
             alive: "true",
             items: [
