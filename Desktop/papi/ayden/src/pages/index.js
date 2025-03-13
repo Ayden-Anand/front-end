@@ -1,4 +1,6 @@
 "use client";
+import { useState } from "react";
+
 
 import React from "react";
 
@@ -23,7 +25,7 @@ const exampleData = [
         firstname: "Chinguun",
         lastname: "Toivgoo",
         school: "NIT",
-        job: "Youtuber",
+        job: "Gang leader(In prison)",
         alive: "true",
         items:[
             { id: 12, name: "Weed"},
@@ -305,39 +307,75 @@ const exampleData = [
         }
     ];
 
-export default function Lab() {
-    return (
-        <div className="p-10 grid grid-cols-5 gap-10 bg-blue-100 min-h-screen">
-            {exampleData.map((element) => (
-                <div
+    function SearchBar({ onSearch }) {
+        const [query, setQuery] = useState("");
+      
+        const handleSearch = (e) => {
+          setQuery(e.target.value);
+          onSearch(e.target.value);
+        };
+      
+        return (
+          <input
+            type="text"
+            placeholder="Search users..."
+            value={query}
+            onChange={handleSearch}
+            className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        );
+      }
+      
+      export default function Lab() {
+        const [filteredData, setFilteredData] = useState(exampleData);
+      
+        const handleSearch = (query) => {
+          const filtered = exampleData.filter((user) =>
+            `${user.firstname} ${user.lastname}`.toLowerCase().includes(query.toLowerCase())
+          );
+          setFilteredData(filtered.length > 0 ? filtered : []);
+        };
+      
+        return (
+          <div className="p-10 bg-blue-100 min-h-screen">
+            <div className="max-w-md mx-auto mb-6">
+              <SearchBar onSearch={handleSearch} />
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-10">
+              {filteredData.length > 0 ? (
+                filteredData.map((element) => (
+                  <div
                     key={element.id}
                     className="flex flex-col p-5 rounded-xl text-black shadow-lg bg-white w-80 h-[600px] border border-gray-300 transition-transform transform hover:scale-105 hover:shadow-xl"
-                >
+                  >
                     <img
-                        src={element.image}
-                        className="w-full h-80 object-cover rounded-lg mb-4"
-                        alt={element.firstname}
+                      src={element.image}
+                      className="w-full h-80 object-cover rounded-lg mb-4"
+                      alt={element.firstname}
                     />
                     <div className="text-center">
-                        <p className="text-gray-800 text-xl font-bold">{element.firstname} {element.lastname}</p>
-                        <p className="text-gray-600 text-lg mt-1">{element.school}</p>
-                        <p className="text-blue-500 text-lg font-medium">{element.job}</p>
-                        <p className="text-gray-700 mt-2 text-sm">{element.Information}</p>
-
-                        <div className="mt-4">
-                            <h4 className="text-gray-800 font-semibold">Items:</h4>
-                            <ul className="list-disc list-inside mt-2 text-gray-700 text-sm">
-                                {element.items.map((item) => (
-                                    <li key={item.id}>{item.name}</li>
-                                ))}
-                            </ul>
-                        </div>
+                      <p className="text-gray-800 text-xl font-bold">
+                        {element.firstname} {element.lastname}
+                      </p>
+                      <p className="text-gray-600 text-lg mt-1">{element.school}</p>
+                      <p className="text-blue-500 text-lg font-medium">{element.job}</p>
+                      <p className="text-gray-700 mt-2 text-sm">{element.Information}</p>
+      
+                      <div className="mt-4">
+                        <h4 className="text-gray-800 font-semibold">Items:</h4>
+                        <ul className="list-disc list-inside mt-2 text-gray-700 text-sm">
+                          {element.items.map((item) => (
+                            <li key={item.id}>{item.name}</li>
+                          ))}
+                        </ul>
+                      </div>
                     </div>
-                </div>
-            ))}
-        </div>
-    );
-}
-
-
-
+                  </div>
+                ))
+              ) : (
+                <p className="text-red-500 text-center text-xl col-span-full">Can't find the user</p>
+              )}
+            </div>
+          </div>
+        );
+      }
