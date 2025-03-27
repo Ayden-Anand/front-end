@@ -346,7 +346,7 @@ const exampleData = [
           className=" bg-[rgb(255,235,184)] text-[rgb(28,23,17)] px-4 py-2 rounded-lg shadow-md hover:bg-[rgb(189,175,140)] transition"
           onClick={() => setCount((prev) => !prev)}
         >
-          Toggle Layout
+          Layout
         </button>
   
         {filteredData.length === 0 ? (
@@ -359,8 +359,12 @@ const exampleData = [
               <div
                 key={index}
               
-                className={`shadow-lg rounded-lg overflow-hidden p-5 flex ${count ? "flex-col items-center text-center" : "flex-row items-center text-left"}`}
-                style={{ backgroundColor: "rgb(222, 197, 177)" }}
+                className={`shadow-lg rounded-lg overflow-hidden p-5 flex transition-all duration-300 transform ${
+                  count ? "flex-col items-center text-center" : "flex-row items-center text-left"
+                } bg-[rgb(222,197,177)] hover:bg-[rgb(200,180,160)] hover:scale-[1.02]`}
+                
+              
+                
               >
           
             
@@ -392,4 +396,5 @@ const exampleData = [
       </div>
     );
   }
+  
   
